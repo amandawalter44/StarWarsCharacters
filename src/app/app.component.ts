@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ICharacter } from './Interfaces/interface.app.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const NUMBER_OF_CHARACTERS = 15;
 
@@ -12,9 +11,12 @@ const NUMBER_OF_CHARACTERS = 15;
 
 export class AppComponent {
 
-  characterList: ICharacter[] = [];
-  errorMessage = null;
-  private cache;
+  public characterList: ICharacter[] = [];
+  public pageLoaded = false;
+  public showErrorMessage = false;
+  private sortingByHeightDescending = false;
+  private sortingByNameDescending = false;
+
 
   ngOnInit() {
     this.getCharacterList(NUMBER_OF_CHARACTERS);
@@ -22,11 +24,11 @@ export class AppComponent {
 
   async getCharacterList(numberOfCharacters: number): Promise<void> {
     let character: ICharacter;
-    for (let i = 0; i <= numberOfCharacters; i++) {
+    for (let i = 1; i <= numberOfCharacters; i++) {
       try {
         let response = await fetch(`https://www.swapi.tech/api/people/${i}`)
         if (!response.ok) {
-          console.log('Error')
+          this.showErrorMessage = true;
         }
         let responseJson = await response.json()
         let result = responseJson.result.properties;
@@ -36,21 +38,32 @@ export class AppComponent {
         }
         this.characterList.push(character);
       } catch (error) {
-        console.log('HERE TOO');
+        this.showErrorMessage = true;
       }
 
     }
     this.sortByName(this.characterList);
+    this.pageLoaded = true;
   }
 
   sortByName(characterArray: ICharacter[]): ICharacter[] {
-    return characterArray.sort((a, b) => (a.name < b.name ? -1 : 1));
+    if (this.sortingByNameDescending) {
+      this.sortingByNameDescending = false;
+      return characterArray.sort((a, b) => (a.name < b.name ? -1 : 1));
+    } else {
+      this.sortingByNameDescending = true;
+      return characterArray.sort((a, b) => (a.name > b.name ? -1 : 1));
+    }
   }
 
   sortByHeight(characterArray: ICharacter[]): ICharacter[] {
-    return characterArray.sort(function (a, b) {
-      return (a.height - b.height);
-    });
-  }
+    if (this.sortingByHeightDescending) {
+      this.sortingByHeightDescending = false
+      return characterArray.sort((a, b) => (a.height - b.height));
+    } else {
+      this.sortingByHeightDescending = true
 
+      return characterArray.sort((a, b) => -(a.height - b.height));
+    }
+  }
 }

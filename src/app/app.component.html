@@ -1,13 +1,19 @@
-<h2>Star Wars Characters</h2>
-<span>
-  Sort By
-  <a href=# title="Sort by Height"  (click)="sortByHeight(characterList)"> Height</a>
-  <a href=# title="Sort by Name" (click)="sortByName(characterList)"> Name</a>
-</span>
-<ul class="characters">
-  <li *ngFor="let character of characterList"
-    [class.selected]="character === selectedCharacter"
-    (click)="onSelect(character)">
-    <span class="badge">{{character.height}}</span> {{character.name}}
-  </li>
-</ul>
+<app-loader *ngIf="!pageLoaded"></app-loader>
+
+<div *ngIf="pageLoaded" class="app-page">
+  <notification-bar *ngIf="showErrorMessage"></notification-bar>
+  <h2>Star Wars Characters</h2>
+  <span class="filter" >
+    Sort By:
+    <button title="Sort by Height"  (click)="sortByHeight(characterList)"> Height</button>
+    <button title="Sort by Name" (click)="sortByName(characterList)"> Name</button>
+  </span>
+  <ul class="characters">
+    <li *ngFor="let character of characterList"
+      class="character"
+      [class.selected]="character === selectedCharacter"
+      (click)="onSelect(character)">
+      <span class="badge">{{character.height}} cm</span> {{character.name}}
+    </li>
+  </ul>
+</div>

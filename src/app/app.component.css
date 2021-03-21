@@ -1,9 +1,9 @@
-/* charactersComponent's private CSS styles */
 .characters {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 15em;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 .characters li {
   cursor: pointer;
@@ -49,4 +49,28 @@
 
 input {
   padding: 0.5rem;
+}
+.app-page {
+  display: grid;
+}
+
+.filter {
+  justify-self: end;
+}
+
+button {
+  background-color: #405061;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  color: #2c3a41;
+  background-color: #e6e6e6;
+  left: 0.1em;
 }

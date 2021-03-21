@@ -1,0 +1,18 @@
+.error-notification {
+  overflow: hidden;
+  color: #9f6000;
+  background-color: #ffffc3;
+  padding: 12px;
+  font-size: 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  background: none;
+  border: none;
+  color: #9f6000;
+  font-size: 16px;
+}

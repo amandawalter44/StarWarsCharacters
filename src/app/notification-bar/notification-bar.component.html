@@ -1,0 +1,7 @@
+
+<div *ngIf="showNotification" class="error-notification">
+    <b>Warning! There was an issue loading all of the characters.</b>
+        <button  aria-label="close error notification" id="closeButton"  (click)="closeNotification()">
+            <fa-icon id="closeIcon" [icon]="faCoffee" ></fa-icon>
+        </button>
+  </div>
