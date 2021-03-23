@@ -8,12 +8,12 @@
     <button title="Sort by Height"  (click)="sortByHeight(characterList)"> Height</button>
     <button title="Sort by Name" (click)="sortByName(characterList)"> Name</button>
   </span>
-  <ul class="characters">
-    <li *ngFor="let character of characterList"
-      class="character"
-      [class.selected]="character === selectedCharacter"
-      (click)="onSelect(character)">
-      <span class="badge">{{character.height}} cm</span> {{character.name}}
-    </li>
-  </ul>
+    <ul class="characters">
+      <li *ngFor="let character of characterList"
+        class="character"
+        [class.selected]="character === selectedCharacter"
+        (click)="onSelect(character)">
+        <span class="badge">{{character.height}} cm</span> {{character.name}}
+      </li>
+    </ul>
 </div>

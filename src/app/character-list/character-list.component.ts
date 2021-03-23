@@ -1,46 +1,40 @@
 import { Component } from '@angular/core';
-import { ICharacter } from './Interfaces/interface.app.component';
+import { CharacterListService } from './character-list.service';
+import { ICharacter } from './Interfaces/character-list.interface';
 
 const NUMBER_OF_CHARACTERS = 15;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'character-list',
+  templateUrl: './character-list.component.html',
+  styleUrls: ['./character-list.component.css']
 })
 
-export class AppComponent {
+export class CharacterListComponent {
 
   public characterList: ICharacter[] = [];
   public pageLoaded = false;
+  public selectedCharacter?: ICharacter;
+
   public showErrorMessage = false;
   private sortingByHeightDescending = false;
   private sortingByNameDescending = false;
 
+  constructor(private characterListService: CharacterListService) {
+  }
 
   ngOnInit() {
     this.getCharacterList(NUMBER_OF_CHARACTERS);
   }
 
   async getCharacterList(numberOfCharacters: number): Promise<void> {
-    let character: ICharacter;
     for (let i = 1; i <= numberOfCharacters; i++) {
       try {
-        let response = await fetch(`https://www.swapi.tech/api/people/${i}`)
-        if (!response.ok) {
-          this.showErrorMessage = true;
-        }
-        let responseJson = await response.json()
-        let result = responseJson.result.properties;
-        character = {
-          height: result.height,
-          name: result.name
-        }
+        let character = await this.characterListService.fetchCharacter(i);
         this.characterList.push(character);
       } catch (error) {
         this.showErrorMessage = true;
       }
-
     }
     this.sortByName(this.characterList);
     this.pageLoaded = true;
@@ -49,21 +43,27 @@ export class AppComponent {
   sortByName(characterArray: ICharacter[]): ICharacter[] {
     if (this.sortingByNameDescending) {
       this.sortingByNameDescending = false;
-      return characterArray.sort((a, b) => (a.name < b.name ? -1 : 1));
+      return characterArray.sort((a, b) => (a.name > b.name ? -1 : 1));
     } else {
       this.sortingByNameDescending = true;
-      return characterArray.sort((a, b) => (a.name > b.name ? -1 : 1));
+      return characterArray.sort((a, b) => (a.name < b.name ? -1 : 1));
     }
   }
 
   sortByHeight(characterArray: ICharacter[]): ICharacter[] {
     if (this.sortingByHeightDescending) {
       this.sortingByHeightDescending = false
-      return characterArray.sort((a, b) => (a.height - b.height));
+      return characterArray.sort((a, b) => -(a.height - b.height));
+
     } else {
       this.sortingByHeightDescending = true
+      return characterArray.sort((a, b) => (a.height - b.height));
 
-      return characterArray.sort((a, b) => -(a.height - b.height));
     }
   }
+  onSelect(character: ICharacter): void {
+    this.selectedCharacter = character;
+  }
+
+
 }

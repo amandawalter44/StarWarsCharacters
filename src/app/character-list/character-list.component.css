@@ -6,7 +6,6 @@
   grid-template-columns: 1fr;
 }
 .characters li {
-  cursor: pointer;
   position: relative;
   left: 0;
   background-color: #eee;
@@ -47,9 +46,6 @@
   border-radius: 4px 0 0 4px;
 }
 
-input {
-  padding: 0.5rem;
-}
 .app-page {
   display: grid;
 }
