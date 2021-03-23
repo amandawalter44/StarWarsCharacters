@@ -22,4 +22,4 @@ import { CharacterListService } from './character-list.service';
   providers: [CharacterListService],
   bootstrap: [CharacterListComponent]
 })
-export class AppModule { }
+export class CharacterListModule { }

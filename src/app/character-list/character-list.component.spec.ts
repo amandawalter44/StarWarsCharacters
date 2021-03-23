@@ -25,15 +25,17 @@ const characterArray = [
     character4
 ]
 describe('CharacterListComponent', () => {
-    let characterListServiceStub: CharacterListService;
+    let characterListServiceStub = {
+        fetchCharacter(num: number) {
+            return Promise.resolve();
+        }
+    };
     beforeEach(async () => {
-        characterListServiceStub = new CharacterListService();
         await TestBed.configureTestingModule({
             declarations: [CharacterListComponent],
-            providers: [CharacterListService]
+            providers: [{ provide: CharacterListService, useValue: characterListServiceStub }]
         }).compileComponents();
     });
-
     it('sortByHeight sorts correctly by ascending', () => {
         const fixture = TestBed.createComponent(CharacterListComponent);
         const component = fixture.componentInstance;
@@ -74,15 +76,5 @@ describe('CharacterListComponent', () => {
         let actual = component.sortByName(characterArray);
 
         expect(expected).toEqual(actual);
-    });
-
-    it('showErrorMessage is true when API returns error', () => {
-        const fixture = TestBed.createComponent(CharacterListComponent);
-        const component = fixture.componentInstance;
-        let getCharacterListSpy = spyOn(characterListServiceStub, 'fetchCharacter').and.throwError('ERROR');
-
-        component.getCharacterList(2);
-
-        expect(component.showErrorMessage).toBeTrue;
     });
 });

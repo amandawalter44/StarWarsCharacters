@@ -3,17 +3,15 @@
 <div *ngIf="pageLoaded" class="app-page">
   <notification-bar *ngIf="showErrorMessage"></notification-bar>
   <h2>Star Wars Characters</h2>
-  <span class="filter" >
+  <span class="filter right-button">
     Sort By:
-    <button title="Sort by Height"  (click)="sortByHeight(characterList)"> Height</button>
+    <button title="Sort by Height" (click)="sortByHeight(characterList)"> Height</button>
     <button title="Sort by Name" (click)="sortByName(characterList)"> Name</button>
   </span>
-    <ul class="characters">
-      <li *ngFor="let character of characterList"
-        class="character"
-        [class.selected]="character === selectedCharacter"
-        (click)="onSelect(character)">
-        <span class="badge">{{character.height}} cm</span> {{character.name}}
-      </li>
-    </ul>
+  <ul class="characters">
+    <li *ngFor="let character of characterList" class="character">
+      <span class="badge">{{character.height}} cm</span> {{character.name}}
+    </li>
+  </ul>
+  <button class="right-button side-toggle" title="Join the Light Side" (click)="toggleLightSide()">Join the Light Side</button>
 </div>
